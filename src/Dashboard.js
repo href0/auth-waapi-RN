@@ -1,8 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, StyleSheet } from 'react-native'
 import jwtDecode from 'jwt-decode'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 const Dashboard = () => {
     const [token, setToken] = useState('')
@@ -10,9 +10,16 @@ const Dashboard = () => {
     const [expired, setExpired] = useState('')
     const navigation = useNavigation()
 
-    useEffect(() => {
-        refreshToken()
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            refreshToken()
+            console.log('a')
+        })
+    );
+    // useEffect(() => {
+    //     refreshToken()
+    //     console.log('a')
+    // }, [])
 
     const refreshToken = async () => {
         try {
@@ -23,7 +30,11 @@ const Dashboard = () => {
             setExpired(decoded.exp)
         } catch (error) {
             if(error.response){
-                navigation.navigate('Login')
+                // navigation.navigate('Login')
+                navigation.reset({
+                    index:0,
+                    routes:[{name:'Login'}],
+                })
             }
         }
     }
@@ -53,6 +64,19 @@ const Dashboard = () => {
             })
             console.log(respon.data.users)
         } catch (error) {
+            console.log('error ='+error)
+        }
+    }
+
+    const Logout = async () => {
+        try {
+            await axios.delete('http://192.168.100.19:5000/logout')
+            navigation.reset({
+                    index:0,
+                    routes:[{name:'Login'}],
+                })
+            console.log('logout success')
+        } catch (error) {
             console.log(error)
         }
     }
@@ -61,8 +85,17 @@ const Dashboard = () => {
         <View>
             <Text>Selamat datang : {name}</Text>
             <Button title="Get User" onPress={getUser} />
+            <View style={styles.margin}>
+                <Button title="Logout" onPress={Logout} />
+            </View>
         </View>
     )
 }
 
 export default Dashboard
+
+const styles = StyleSheet.create({
+  margin:{
+      marginTop: 10
+  }
+})
