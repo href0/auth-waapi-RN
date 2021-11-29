@@ -12,9 +12,9 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Login} />
-        <Stack.Screen name="Verify" component={Verify} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown:false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown:false }} />
+        <Stack.Screen name="Verify" component={Verify} options={{ headerShown:false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
