@@ -13,7 +13,17 @@ const Login = () =>  {
             await axios.post('http://192.168.100.19:5000/login', {
                 nohp:nohp
             })
-            navigation.navigate('Verify', {nohp:nohp})
+            // navigation.navigate('Verify', {nohp:nohp})
+            navigation.reset({
+                index:0,
+                routes:[
+                  {
+                    name:'Verify',
+                    params:{
+                      nohp:nohp
+                    }
+                  }]
+            })
         } catch (error) {
             Alert.alert('Error', error.response.data.msg)
         }
