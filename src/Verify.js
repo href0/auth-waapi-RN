@@ -16,7 +16,7 @@ const Verify = () => {
                 nohp:nohp,
                 code:code
             })
-            console.log(response.data.accesToken)
+            // console.log(response.data.accesToken)
             navigation.navigate('Dashboard')
         } catch (error) {
             Alert.alert('Error', error.response.data.msg)

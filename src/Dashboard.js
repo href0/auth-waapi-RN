@@ -13,13 +13,8 @@ const Dashboard = () => {
     useFocusEffect(
         React.useCallback(() => {
             refreshToken()
-            console.log('a')
         })
     );
-    // useEffect(() => {
-    //     refreshToken()
-    //     console.log('a')
-    // }, [])
 
     const refreshToken = async () => {
         try {
