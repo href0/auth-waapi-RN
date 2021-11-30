@@ -8,11 +8,12 @@ const Verify = () => {
     const navigation = useNavigation()
     const route = useRoute()
     const  nohp  = route.params.nohp;
+    const baseURL = 'https://auth-jwt-with-whatsapp-api.herokuapp.com'
 
     const verify = async () => {
         if(!code) return Alert.alert('Error', 'Invalid Code')
         try {
-           const response = await axios.post('http://192.168.100.19:5000/verifyotp', {
+           const response = await axios.post(baseURL+'/verifyotp', {
                 nohp:nohp,
                 code:code
             })

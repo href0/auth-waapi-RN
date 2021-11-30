@@ -6,11 +6,12 @@ import { Text, StyleSheet, View, TextInput, TouchableOpacity, Alert, Button } fr
 const Login = () =>  {
     const [nohp, setNohp] = useState('')
     const navigation = useNavigation()
+    const baseURL = 'https://auth-jwt-with-whatsapp-api.herokuapp.com'
 
     const login = async () => {
         if(!nohp) return Alert.alert('Error', 'No hp tidak boleh kosong')
         try {
-            await axios.post('http://192.168.100.19:5000/login', {
+            await axios.post(baseURL+'/login', {
                 nohp:nohp
             })
             // navigation.navigate('Verify', {nohp:nohp})

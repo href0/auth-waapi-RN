@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, Button, StyleSheet } from 'react-native'
 import jwtDecode from 'jwt-decode'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
-
 const Dashboard = () => {
     const [token, setToken] = useState('')
     const [name, setName] = useState('')
     const [expired, setExpired] = useState('')
     const navigation = useNavigation()
+    const baseURL = 'https://auth-jwt-with-whatsapp-api.herokuapp.com'
 
     useFocusEffect(
         React.useCallback(() => {
@@ -18,7 +18,7 @@ const Dashboard = () => {
 
     const refreshToken = async () => {
         try {
-            const response = await axios.get('http://192.168.100.19:5000/refreshtoken')
+            const response = await axios.get(baseURL+'/refreshtoken')
             setToken(response.data.accessToken)
             const decoded = jwtDecode(response.data.accessToken)
             setName(decoded.name)
@@ -38,7 +38,7 @@ const Dashboard = () => {
     axiosJWT.interceptors.request.use(async(config) => {
         const currentDate = new Date()
         if(expired * 1000 < currentDate.getTime()){
-            const response = await axios.get('http://192.168.100.19:5000/refreshtoken')
+            const response = await axios.get(baseURL+'/refreshtoken')
             config.headers.Authorization = `Bearer ${response.data.accessToken}`
             setToken(response.data.accessToken)
             const decoded = jwtDecode(response.data.accessToken)
@@ -52,7 +52,7 @@ const Dashboard = () => {
 
     const getUser = async () => {
         try {
-            const respon = await axiosJWT.get('http://192.168.100.19:5000/users', {
+            const respon = await axiosJWT.get(baseURL+'/users', {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
@@ -65,7 +65,7 @@ const Dashboard = () => {
 
     const Logout = async () => {
         try {
-            await axios.delete('http://192.168.100.19:5000/logout')
+            await axios.delete(baseURL+'/logout')
             navigation.reset({
                     index:0,
                     routes:[{name:'Login'}],
